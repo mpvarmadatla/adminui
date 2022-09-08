@@ -1,9 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {StyleSheet,TextInput,View,Text} from 'react-native';
 import admindata from '../AdminUI_JSON.json'
 import TableComponent from './utils/TableComponent';
+import TablePagination from './utils/TablePagination';
 
 const MainAppScreen = () =>{
+   const [currentPage,setCurrentPage] = useState(1);
+   const [postsPerPage] = useState(10);
+
+   //Get current posts
+   const indexOfLastPost = currentPage * 10;
+   const indexOfFirstPost = indexOfLastPost - postsPerPage;
+   const currentPosts = admindata.slice(indexOfFirstPost,indexOfLastPost)
+
+   //change page
+   const paginate = (number) => setCurrentPage(number);
+   
     return (
     <View style={Styles.mainContainer}>
           <TextInput 
@@ -11,7 +23,8 @@ const MainAppScreen = () =>{
            placeholder="Search by name, email or role"
             />
             <HeaderTitle />
-            <TableComponent data={admindata} />
+            <TableComponent key={currentPosts[0].id} data={currentPosts} />
+            <TablePagination postsPerPage={postsPerPage} totalPosts={admindata.length} paginate={paginate}/>
     </View>
     )
 }
