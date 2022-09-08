@@ -2,10 +2,12 @@ import React,{useState} from 'react';
 import {Text,View,StyleSheet,TouchableOpacity,Modal, Pressable} from 'react-native';
 import { TextInput } from 'react-native-paper';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import CheckBox from '@react-native-community/checkbox';
 
 
 const TableComponent = ({data}) =>{
     const [modalVisible, setModalVisible] = useState(false);
+    const [toggleCheckBox, setToggleCheckBox] = useState(false)
     const [uidata,setUiData] = useState(data.slice(0,10))
     const [recordValue,setRecordValue] = useState("")
 
@@ -28,6 +30,11 @@ const TableComponent = ({data}) =>{
    {
     uidata && uidata.map((item)=>
                <View key={item?.id} style={{flexDirection:'row',justifyContent:'space-between',padding:5}}>
+                <CheckBox 
+                disabled={false}
+                value={toggleCheckBox}
+                onValueChange={(newValue) => setToggleCheckBox(newValue)}
+                />
                 <Text>{item?.name}</Text>
                 <Text >{item?.email.length < 6 ? item.email :`${item.email.substring(0,6)}...`}</Text>
                 <Text >{item.role }</Text>

@@ -3,6 +3,7 @@ import {StyleSheet,TextInput,View,Text} from 'react-native';
 import admindata from '../AdminUI_JSON.json'
 import TableComponent from './utils/TableComponent';
 import TablePagination from './utils/TablePagination';
+import CheckBox from '@react-native-community/checkbox';
 
 const MainAppScreen = () =>{
    const [currentPage,setCurrentPage] = useState(1);
@@ -24,14 +25,14 @@ const MainAppScreen = () =>{
             />
             <HeaderTitle />
             <TableComponent key={currentPosts[0].id} data={currentPosts} />
-            <View style={{position:'absolute',bottom:300,right:0,width:300}}>
+           
             <TablePagination 
              postsPerPage={postsPerPage} 
              totalPosts={admindata.length}
               paginate={paginate}
               currentPage={currentPage}
               />
-            </View>
+           
             
     </View>
     )
@@ -56,6 +57,7 @@ export const HeaderTitle = () =>{
     const headerTitles= ['Name','Email','Role','Actions']
     return (
         <View style={{flexDirection:'row',borderBottomWidth:1,justifyContent:'space-between',padding:5,marginTop:10}}>
+            <CheckBox />
             {headerTitles.map((item)=><Text key={item}>{item}</Text>)}
         </View>
     )

@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import {Text,TouchableOpacity,View,Button,StyleSheet} from 'react-native';
 import MaterailIcon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 const TablePagination = ({postsPerPage,totalPosts,paginate,currentPage}) =>{
+   
     const pageNumbers =[]
     
     for(let i=1;i<= Math.ceil(totalPosts/postsPerPage); i++){
@@ -11,7 +12,13 @@ const TablePagination = ({postsPerPage,totalPosts,paginate,currentPage}) =>{
 
     return (
         <View style={{padding:5}}>
-            <View style={{flexDirection:'row',justifyContent:'space-between'}}>
+            <View
+             style={{flexDirection:'row',
+                      justifyContent:'space-between',
+                      alignItems:'center'}}>
+               <View>
+               <Button title="Delete"  color="red" />
+                </View> 
              <TouchableOpacity
              disabled={ currentPage === 1 ? true : false}
              style={currentPage === 1 ? {...Styles.circularContanier,backgroundColor:'grey'}: Styles.circularContanier}
@@ -58,7 +65,7 @@ const TablePagination = ({postsPerPage,totalPosts,paginate,currentPage}) =>{
 
 const Styles = StyleSheet.create({
     circularContanier:{
-        marginTop:20,
+        
         width:20,
         height:20,
         backgroundColor:'lightblue',
