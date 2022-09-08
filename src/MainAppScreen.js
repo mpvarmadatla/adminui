@@ -15,7 +15,7 @@ const MainAppScreen = () =>{
 
    //change page
    const paginate = (number) => setCurrentPage(number);
-   
+
     return (
     <View style={Styles.mainContainer}>
           <TextInput 
@@ -24,7 +24,15 @@ const MainAppScreen = () =>{
             />
             <HeaderTitle />
             <TableComponent key={currentPosts[0].id} data={currentPosts} />
-            <TablePagination postsPerPage={postsPerPage} totalPosts={admindata.length} paginate={paginate}/>
+            <View style={{position:'absolute',bottom:300,right:0,width:300}}>
+            <TablePagination 
+             postsPerPage={postsPerPage} 
+             totalPosts={admindata.length}
+              paginate={paginate}
+              currentPage={currentPage}
+              />
+            </View>
+            
     </View>
     )
 }
