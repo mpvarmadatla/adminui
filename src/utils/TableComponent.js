@@ -5,15 +5,24 @@ import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
 const TableComponent = ({data}) =>{
-    const [modalVisible, setModalVisible] = useState(true);
+    const [modalVisible, setModalVisible] = useState(false);
     const [uidata,setUiData] = useState(data.slice(0,10))
+    const [recordValue,setRecordValue] = useState("")
 
     const deleteRecord = (data) =>{
        let FilteredData = uidata.filter((item)=>item.id !== data.id)
        setUiData(FilteredData)
     }
-    const updateRecord = (data) =>{
-       console.log(data);
+    const updateRecord = () =>{
+        
+      let recordUpdate = uidata.map((item)=>{
+        if(item.id === recordValue.id){
+            return {...item,name:recordValue.name,email:recordValue.email,role:recordValue.role}
+        }
+        return item;
+      })
+      setUiData(recordUpdate);
+      setModalVisible(!modalVisible)
     }
    return ( <>
    {
@@ -23,7 +32,10 @@ const TableComponent = ({data}) =>{
                 <Text >{item?.email.length < 6 ? item.email :`${item.email.substring(0,6)}...`}</Text>
                 <Text >{item.role }</Text>
                 <View style={{flexDirection:'row'}}>
-                <TouchableOpacity onPress={() =>updateRecord(item)}>
+                <TouchableOpacity onPress={() =>{
+                    setRecordValue(item)
+                    setModalVisible(!modalVisible)
+                    }}>
                 <MaterialIcons name='square-edit-outline' color='grey' size={20}/>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={()=>deleteRecord(item)}>
@@ -45,26 +57,38 @@ const TableComponent = ({data}) =>{
             <TextInput
              mode="outlined"
             label="Name"
+            value={recordValue?.name}
               placeholder="Enter Name"
               style={{margin:10,height:40}}
-              />
+              onChangeText={text =>
+                setRecordValue({...recordValue,name:text})
+              }
+               />
             <TextInput
              mode="outlined"
             label="Email"
+            value={recordValue?.email}
               placeholder="Enter Email"
               style={{margin:10,height:40}}
+              onChangeText={text =>
+                setRecordValue({...recordValue,email:text})
+              }
               />
               <TextInput
              mode="outlined"
-            label="Role"
+             value={recordValue?.role}
+             label="Role"
               placeholder="Enter Role"
               style={{margin:10,height:40}}
+              onChangeText={text =>
+                setRecordValue({...recordValue,role:text})
+              }
               />
             <View>
             <View style={{flexDirection:'row',justifyContent:"space-around",marginTop:30}}>
             <Pressable
             style={{borderRadius:5,backgroundColor:'#97D2EC',minWidth:100,minHeight:30,justifyContent:'center',alignItems:'center'}}
-              onPress={() => setModalVisible(!modalVisible)}
+              onPress={() => updateRecord()}
             >
               <Text>Update</Text>
             </Pressable>
